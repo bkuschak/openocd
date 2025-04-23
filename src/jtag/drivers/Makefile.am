@@ -210,6 +210,9 @@ endif
 if AM335XGPIO
 DRIVERFILES += %D%/am335xgpio.c
 endif
+if REMOTE_SWD
+DRIVERFILES += %D%/remote_swd.c
+endif
 
 DRIVERHEADERS = \
 	%D%/bitbang.h \
