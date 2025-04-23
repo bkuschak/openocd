@@ -167,6 +167,9 @@ m4_define([LIBGPIOD_ADAPTERS],
 m4_define([REMOTE_BITBANG_ADAPTER],
 	[[[remote_bitbang], [Remote Bitbang driver], [REMOTE_BITBANG]]])
 
+m4_define([REMOTE_SWD_ADAPTER],
+	[[[remote_swd], [Remote SWD programmer over TCP/IP], [REMOTE_SWD]]])
+
 m4_define([LIBJAYLINK_ADAPTERS],
 	[[[jlink], [SEGGER J-Link Programmer], [JLINK]]])
 
@@ -313,6 +316,7 @@ AC_ARG_ADAPTERS([
   LIBFTDI_USB1_ADAPTERS,
   LIBGPIOD_ADAPTERS,
   REMOTE_BITBANG_ADAPTER,
+  REMOTE_SWD_ADAPTER,
   LINUXSPIDEV_ADAPTER,
   SERIAL_PORT_ADAPTERS,
   DUMMY_ADAPTER,
@@ -709,6 +713,7 @@ PROCESS_ADAPTERS([LIBFTDI_ADAPTERS], ["x$use_libftdi" = "xyes"], [libftdi])
 PROCESS_ADAPTERS([LIBFTDI_USB1_ADAPTERS], ["x$use_libftdi" = "xyes" -a "x$use_libusb1" = "xyes"], [libftdi and libusb-1.x])
 PROCESS_ADAPTERS([LIBGPIOD_ADAPTERS], ["x$use_libgpiod" = "xyes"], [Linux libgpiod])
 PROCESS_ADAPTERS([REMOTE_BITBANG_ADAPTER], [true], [unused])
+PROCESS_ADAPTERS([REMOTE_SWD_ADAPTER], [true], [unused])
 PROCESS_ADAPTERS([LIBJAYLINK_ADAPTERS], ["x$use_internal_libjaylink" = "xyes" -o "x$use_libjaylink" = "xyes"], [libjaylink-0.2])
 PROCESS_ADAPTERS([PCIE_ADAPTERS], ["x$is_linux" = "xyes"], [Linux build])
 PROCESS_ADAPTERS([SERIAL_PORT_ADAPTERS], ["x$can_build_buspirate" = "xyes"],
@@ -871,6 +876,7 @@ m4_foreach([adapter], [USB1_ADAPTERS,
 	LIBFTDI_USB1_ADAPTERS,
 	LIBGPIOD_ADAPTERS,
 	REMOTE_BITBANG_ADAPTER,
+	REMOTE_SWD_ADAPTER,
 	LIBJAYLINK_ADAPTERS, PCIE_ADAPTERS, SERIAL_PORT_ADAPTERS,
 	LINUXSPIDEV_ADAPTER,
 	VDEBUG_ADAPTER,

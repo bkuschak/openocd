@@ -108,6 +108,9 @@ struct adapter_driver *adapter_drivers[] = {
 #if BUILD_REMOTE_BITBANG == 1
 		&remote_bitbang_adapter_driver,
 #endif
+#if BUILD_REMOTE_SWD == 1
+		&remote_swd_adapter_driver,
+#endif
 #if BUILD_HLADAPTER == 1
 		&hl_adapter_driver,
 #endif
