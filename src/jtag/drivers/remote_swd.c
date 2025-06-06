@@ -489,9 +489,6 @@ static int remote_swd_run_queue(void)
     return ERROR_OK;
 }
 
-// SWD only.
-static const char * const remote_swd_transports[] = { "swd", NULL };
-
 const struct swd_driver remote_swd_ops = {
     .init = remote_swd_swd_init,
     .switch_seq = remote_swd_switch_seq,
@@ -502,7 +499,8 @@ const struct swd_driver remote_swd_ops = {
 
 struct adapter_driver remote_swd_adapter_driver = {
     .name = "remote_swd",
-    .transports = remote_swd_transports,
+    .transport_ids = TRANSPORT_SWD,
+    .transport_preferred_id = TRANSPORT_SWD,
     .commands = remote_swd_command_handlers,
     .init = &remote_swd_init,
     .quit = &remote_swd_quit,
