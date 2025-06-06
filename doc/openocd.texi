@@ -627,6 +627,9 @@ This is deprecated from Linux v5.3; prefer using @b{linuxgpiod}.
 @item @b{esp_usb_jtag}
 @* A JTAG driver to communicate with builtin debug modules of Espressif ESP32-C3 and ESP32-S3 chips using OpenOCD.
 
+@item @b{remote_swd}
+@* An SWD driver for use with remote programmers over TCP/IP.
+
 @end itemize
 
 @node About Jim Tcl
@@ -2878,6 +2881,34 @@ named mysocket:
 adapter driver remote_bitbang
 remote_bitbang port 0
 remote_bitbang host mysocket
+@end example
+@end deffn
+
+@deffn {Interface Driver} {remote_swd}
+Controls a remote SWD programmer over TCP/IP using a simple protocol. For flash
+programming, this is much faster than using the remote_bitbang driver.  It has
+a lightweight remote-side implementation. Supports SWD only, not JTAG.
+
+An implementation of the firmware for an ESP32-based SWD programmer that uses
+this remote_swd protocol can be found at:
+https://github.com/bkuschak/openocd_remote_swd_esp32
+
+@deffn {Config Command} {remote_swd host} hostname
+Specifies the hostname or IP address of the remote SWD programmer to connect to
+using TCP.
+@end deffn
+
+@deffn {Config Command} {remote_swd port} number
+Specifies the TCP port number of the remote SWD programmer.
+@end deffn
+
+For example, to connect remotely via TCP to the host foobar you might have
+something like:
+
+@example
+adapter driver remote_swd
+remote_swd host foobar
+remote_swd port 5253
 @end example
 @end deffn
 
