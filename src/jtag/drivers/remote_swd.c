@@ -338,9 +338,9 @@ static int remote_swd_init(void)
     LOG_INFO("remote_swd driver initialized");
 
     // Get device version and serial number.
-    unsigned int protocol;
-    unsigned int version;
-    unsigned int serial_num;
+    unsigned int protocol = 0;
+    unsigned int version = 0;
+    unsigned int serial_num = 0;
     ret = remote_swd_protocol(&protocol);
     if(ret != ERROR_OK) {
         LOG_ERROR("Failed getting remote protocol version!");
