@@ -35,10 +35,11 @@
 #include <netdb.h>
 #include <netinet/tcp.h>
 #endif
+#include <arpa/inet.h>
+#include "bitbang.h"
 #include "helper/system.h"
 #include "helper/replacements.h"
 #include <jtag/interface.h>
-#include "bitbang.h"
 
 // Define our version of the protocol used.  Remote side must match.
 #define PROTOCOL_VERSION        0x01
@@ -106,7 +107,10 @@ static int remote_swd_run_queue(void);
 static int remote_swd_queue(struct queued_command* cmd, uint32_t* response,
         enum flush_bool flush)
 {
+    // Use network byte order in the packets.
     queued_commands[queued_commands_idx] = *cmd;
+    queued_commands[queued_commands_idx].data = htonl(cmd->data);
+
     response_data[queued_commands_idx] = response;
 
     if(response == NULL)
@@ -477,12 +481,9 @@ static int remote_swd_run_queue(void)
         if(cmd->flags & FLAGS_EXPECT_DATA) {
             LOG_DEBUG("Got response data: %08x", resp->data);
             if(response_data[i])
-                *response_data[i] = resp->data;
+                *response_data[i] = ntohl(resp->data);
         }
     }
-
-    // TODO - Return ACK response on WAIT/FAULT.  How does this work if
-    // multiple commands are queued?
 
     LOG_DEBUG("SWD run_queue success");
     queued_commands_idx = 0;
